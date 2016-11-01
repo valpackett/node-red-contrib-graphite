@@ -1,0 +1,32 @@
+{
+  "name": "node-red-contrib-graphite",
+  "version": "1.0.0",
+  "description": "Node-RED node that sends metrics to Graphite over the UDP plaintext protocol",
+  "main": "graphite/graphite.js",
+  "node-red": {
+    "nodes": {
+      "graphite": "graphite/graphite.js"
+    }
+  },
+  "engines": { "node" : ">=4.0.0" },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myfreeweb/node-red-contrib-graphite"
+  },
+  "keywords": [
+    "node-red",
+    "node-red-contrib",
+    "graphite",
+    "metrics"
+  ],
+  "author": "Greg V <greg@unrelenting.technology>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/myfreeweb/node-red-contrib-graphite/issues"
+  },
+  "homepage": "https://github.com/myfreeweb/node-red-contrib-graphite#readme",
+  "dependencies": {
+    "graphite-udp": "^1.2.0"
+  }
+}

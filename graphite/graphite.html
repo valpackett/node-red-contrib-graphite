@@ -1,0 +1,94 @@
+<script type="text/javascript">
+	RED.nodes.registerType('graphite', {
+		category: 'output',
+		color: '#D8BFD8',
+		defaults: {
+			name: { value: '' },
+			host: { value: '127.0.0.1', required: true },
+			port: { value: 2003, validate: RED.validators.number(), required: true },
+			connType: { value: 'udp4', validate: function (v) { return v == 'udp4' || v == 'udp6' }, required: true },
+			maxPacketSize: { value: 4096, validate: RED.validators.number(), required: true },
+			prefix: { value: '' },
+			suffix: { value: '' },
+			defaultMetric: { value: 'thingy', required: true },
+			interval: { value: 5000, validate: RED.validators.number(), required: true },
+			add: { value: false, required: true },
+		},
+		inputs: 1,
+		outputs: 1,
+		icon: 'db.png',
+		label: function () {
+			return this.name || 'graphite'
+		}
+	})
+</script>
+
+
+<script type="text/x-red" data-template-name="graphite">
+	<div class="form-row">
+		<label for="node-input-name"><i class="icon-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-host">Host</label>
+		<input type="text" id="node-input-host">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-port">Port</label>
+		<input type="number" id="node-input-port">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-connType">Connection type</label>
+		<select id="node-input-connType">
+			<option value="udp4">udp4</option>
+			<option value="udp6">udp6</option>
+		</select>
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-maxPacketSize">Maximum packet size</label>
+		<input type="number" id="node-input-maxPacketSize">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-prefix">Prefix for all metrics</label>
+		<input type="text" id="node-input-prefix">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-suffix">Suffix for all metrics</label>
+		<input type="text" id="node-input-suffix">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-defaultMetric">Default metric name</label>
+		<input type="text" id="node-input-defaultMetric">
+		<br><small>(used when the payload is a number or a numeric string, not an object)</small>
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-interval">Sending interval in ms</label>
+		<input type="number" id="node-input-interval">
+		<br><small>(the node will collect metrics for that time period, then send them all at once)</small>
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-add">Add to the metrics' values instead of replacing</label>
+		<input type="checkbox" id="node-input-add">
+	</div>
+</script>
+
+
+<script type="text/x-red" data-help-name="graphite">
+	<p>Sends metrics to Graphite over the UDP plaintext protocol.</p>
+	<p>
+		If <code>msg.payload</code> is a number, it will be sent as <code>prefix + '.' + defaultMetric + '.' + suffix</code>.
+		If it's a string, it will be parsed as a float and sent like a number.
+		But if it's an object, its properties will be sent as <code>prefix + '.' + key + '.' + suffix</code>.
+		The values of the properties will be handled just like raw numbers/strings.
+		Nested objects are not supported.
+	</p>
+</script>
